@@ -8,6 +8,6 @@ import { PlaceholderDirective } from './placeholder/placeholder.directive';
 @NgModule({
   declarations: [AlertComponent, LoadingSpinnerComponent, PlaceholderDirective, DropdownDirective],
   imports: [CommonModule],
-  exports: [AlertComponent, LoadingSpinnerComponent, PlaceholderDirective, CommonModule]
+  exports: [AlertComponent, LoadingSpinnerComponent, PlaceholderDirective, DropdownDirective, CommonModule]
 })
 export class SharedModule {}
