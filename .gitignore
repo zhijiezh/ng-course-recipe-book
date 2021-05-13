@@ -5,8 +5,6 @@ dist/*
 /.vscode/
 .node-version
 deploy-newhuan.sh
-package-lock.json
-yarn.lock
 yarn-error.log
 proxy.conf.json
 
