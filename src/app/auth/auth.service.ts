@@ -3,9 +3,11 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { User } from './user.model';
 
-const API_KEY = 'AIzaSyAIxRL7_i8ZAvE74iBqqfuI5Nqr7F4OeV8';
+
+const API_KEY = environment.firebaseAPIKey;
 
 export interface AuthResponseData {
   idToken: string;
