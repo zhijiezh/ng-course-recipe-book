@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "ng-course-recipe-book-1a6c1"
+  },
+  "targets": {
+    "ng-course-recipe-book-1a6c1": {
+      "hosting": {
+        "my-first-app": [
+          "ng-course-recipe-book-1a6c1"
+        ]
+      }
+    }
   }
 }
