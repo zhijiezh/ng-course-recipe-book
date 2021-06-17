@@ -7722,6 +7722,11 @@ next-tick@~1.0.0:
   resolved "https://registry.npm.taobao.org/next-tick/download/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
   integrity sha1-yobR/ogoFpsBICCOPchCS524NCw=
 
+ngrx@^0.0.1-security:
+  version "0.0.1-security"
+  resolved "https://registry.nlark.com/ngrx/download/ngrx-0.0.1-security.tgz#4c250a90eadc5ca9a1681aca3606b0a16234c5d0"
+  integrity sha1-TCUKkOrcXKmhaBrKNgawoWI0xdA=
+
 nice-try@^1.0.4:
   version "1.0.5"
   resolved "https://registry.npm.taobao.org/nice-try/download/nice-try-1.0.5.tgz?cache=0&sync_timestamp=1614510039289&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fnice-try%2Fdownload%2Fnice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"
