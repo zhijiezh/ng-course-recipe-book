@@ -8,7 +8,6 @@ yarn-error.log
 proxy.conf.json
 .firebase/*
 package.json
-package-lock.json
 
 # vim cache files
 *.swp
