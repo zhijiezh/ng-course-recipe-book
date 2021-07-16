@@ -1,15 +1,7 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
-import { User } from './user.model';
 import * as fromApp from '../store/app.reducer';
 import * as AuthActions from './store/auth.action';
-
-const API_KEY = environment.firebaseAPIKey;
 
 export interface AuthResponseData {
   idToken: string;
@@ -22,84 +14,20 @@ export interface AuthResponseData {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  // user = new BehaviorSubject<User>(null);
   private tokenExpirationTimer: any;
 
-  constructor(private http: HttpClient, private router: Router, private store: Store<fromApp.AppState>) {}
-  
-  autoLogin() {
-    const userData: { email: string; id: string; _token: string; _tokenExpirationDate: string } = JSON.parse(
-      localStorage.getItem('userData')
-    );
-    if (!userData) {
-      return;
-    }
-    const loadedUser = new User(userData.email, userData.id, userData._token, new Date(userData._tokenExpirationDate));
+  constructor(private store: Store<fromApp.AppState>) {}
 
-    if (loadedUser.token) {
-      // 注意此处是getter
-      // this.user.next(loadedUser);
-      this.store.dispatch(
-        new AuthActions.AuthenticateSuccess({
-          email: loadedUser.email,
-          userId: loadedUser.id,
-          token: loadedUser.token,
-          expirationDate: new Date(userData._tokenExpirationDate)
-        })
-      );
-      const expirationDuration = new Date(userData._tokenExpirationDate).getTime() - new Date().getTime();
-      this.autoLogout(expirationDuration);
-    }
-  }
-
-  logout() {
-    // this.user.next(null);
-    this.store.dispatch(new AuthActions.Logout());
-    this.router.navigate(['/auth']);
-    localStorage.removeItem('userData');
-    if (this.tokenExpirationTimer) {
-      clearTimeout(this.tokenExpirationTimer);
-    }
-  }
-
-  autoLogout(expirationDuration: number) {
+  setLogoutTimer(expirationDuration: number) {
     this.tokenExpirationTimer = setTimeout(() => {
-      this.logout();
+      this.store.dispatch(new AuthActions.Logout());
     }, expirationDuration);
   }
 
-  private handleAuthentication(email: string, userId: string, token: string, expiresIn: number) {
-    const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
-    const user = new User(email, userId, token, expirationDate);
-    // this.user.next(user);
-    this.store.dispatch(
-      new AuthActions.AuthenticateSuccess({
-        email: user.email,
-        userId: user.id,
-        token: user.token,
-        expirationDate: expirationDate
-      })
-    );
-    this.autoLogout(expiresIn * 1000);
-    localStorage.setItem('userData', JSON.stringify(user));
-  }
-
-  private handleError(errorRes: HttpErrorResponse) {
-    let errorMessage = 'An unknown error occurred.';
-    if (!errorRes.error || !errorRes.error.error) {
-      return throwError(errorMessage);
+  clearLogoutTimer() {
+    if (this.tokenExpirationTimer) {
+      clearTimeout(this.tokenExpirationTimer);
+      this.tokenExpirationTimer = null;
     }
-    switch (errorRes.error.error.message) {
-      case 'EMAIL_EXISTS':
-        errorMessage = 'This email has been signed up.';
-        break;
-      case 'EMAIL_NOT_FOUND':
-        errorMessage = 'This email has not been registered.';
-        break;
-      case 'INVALID_PASSWORD':
-        errorMessage = 'Wrong password.';
-        break;
-    }
-    return throwError(errorMessage);
   }
 }
