@@ -26,36 +26,7 @@ export class AuthService {
   private tokenExpirationTimer: any;
 
   constructor(private http: HttpClient, private router: Router, private store: Store<fromApp.AppState>) {}
-  signup(email: string, password: string) {
-    return this.http
-      .post<AuthResponseData>('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + API_KEY, {
-        email: email,
-        password: password,
-        returnSecureToken: true
-      })
-      .pipe(
-        catchError(this.handleError),
-        tap(resData => {
-          this.handleAuthentication(resData.email, resData.localId, resData.idToken, +resData.expiresIn);
-        })
-      );
-  }
-
-  login(email: string, password: string) {
-    return this.http
-      .post<AuthResponseData>('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + API_KEY, {
-        email: email,
-        password: password,
-        returnSecureToken: true
-      })
-      .pipe(
-        catchError(this.handleError),
-        tap(resData => {
-          this.handleAuthentication(resData.email, resData.localId, resData.idToken, +resData.expiresIn);
-        })
-      );
-  }
-
+  
   autoLogin() {
     const userData: { email: string; id: string; _token: string; _tokenExpirationDate: string } = JSON.parse(
       localStorage.getItem('userData')
